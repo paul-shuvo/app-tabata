@@ -5,8 +5,8 @@ const timerStore = create((set) => ({
     preparation: 0,
     work: 0,
     rest: 0,
+    set: 1,
     cycle: 1,
-    interval: 0,
     totalTime: 0,
   },
   setPreparation: (value) =>
@@ -17,12 +17,10 @@ const timerStore = create((set) => ({
     set((state) => ({ data: { ...state.data, work: value > 0 ? value : 0 } })),
   setRest: (value) =>
     set((state) => ({ data: { ...state.data, rest: value > 0 ? value : 0 } })),
+  setSet: (value) =>
+    set((state) => ({ data: { ...state.data, set: value > 1 ? value : 1 } })),
   setCycle: (value) =>
     set((state) => ({ data: { ...state.data, cycle: value > 1 ? value : 1 } })),
-  setInterval: (value) =>
-    set((state) => ({
-      data: { ...state.data, interval: value > 0 ? value : 0 },
-    })),
   setTotalTime: (value) =>
     set((state) => ({
       data: { ...state.data, totalTime: value > 0 ? value : 0 },
@@ -33,8 +31,8 @@ const timerStore = create((set) => ({
         preparation: 0,
         work: 0,
         rest: 0,
+        set: 0,
         cycle: 1,
-        interval: 0,
         totalTime: 0,
       },
     }),

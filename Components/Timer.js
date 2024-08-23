@@ -9,24 +9,39 @@ const Timer = () => {
   //   const setValues = [setPreparation, setWork, setRest, setCycle, setInterval];
   const { preparation, work, rest, cycle, set, interval } = data;
   const [time, setTime] = useState(preparation);
+  const [isRunning, setIsRunning] = useState(false);
 
-const phases = [
-  { title: "Preparation", duration: preparation },
-  { title: "Work", duration: work },
-  { title: "Rest", duration: rest },
-];
+  const phases = [
+    { title: "Preparation", duration: preparation },
+    { title: "Work", duration: work },
+    { title: "Rest", duration: rest },
+  ];
 
-const formatTime = (seconds) => {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
-};
-
+  const handleStartPress = () => {
+    setIsRunning(true);
+  };
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(
+      remainingSeconds
+    ).padStart(2, "0")}`;
+  };
 
   return (
     <View style={styles.container}>
-      <TimerElement />
-
+      <View style={styles.block}>
+        {isRunning ? (
+          <>
+            <Button title="Pause" onPress={console.log("")} />
+            <Button title="Resume" onPress={console.log("")} />
+            <Button title="Reset" onPress={console.log("")} />
+          </>
+        ) : (
+          <Button title="Start" onPress={handleStartPress} />
+        )}
+        <TimerElement />
+      </View>
     </View>
   );
 };

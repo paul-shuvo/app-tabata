@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import { Button } from "react-native-paper";
 import useTimerStore from "../Store/TimerStore";
 
 const TimerElement = () => {
@@ -24,6 +25,22 @@ const TimerElement = () => {
       data.preparation + (data.work + data.rest) * (data.set + data.cycle)
     );
   }, [data.preparation, data.work, data.rest, data.set, data.cycle]);
+
+  const [intervalId, setIntervalId] = useState(null);
+
+  const handlePressIn = async (index, change) => {
+    const id = setInterval(async () => {
+      await setValues[index](values[index] + change);
+      await setCycle(data.cycle + 1);
+      console.log(setValues[index], values[index]);
+    }, 100); // Adjust the interval time as needed
+    setIntervalId(id);
+  };
+
+  const handlePressOut = () => {
+    clearInterval(intervalId);
+    setIntervalId(null);
+  };
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -65,18 +82,30 @@ const TimerElement = () => {
             }}
           >
             <Button
-              title="-"
-              onPress={() => setValues[index](values[index] - 1)}
-            />
+              mode="outlined"
+              compact={true}
+              onPressIn={() => {
+                handlePressIn(index, 1);
+              }}
+              onPressOut={handlePressOut}
+            >
+              -
+            </Button>
             <Text style={styles.text}>
               {title +
                 " : " +
                 (index < 3 ? formatTime(values[index]) : values[index])}
             </Text>
             <Button
-              title="+"
-              onPress={() => setValues[index](values[index] + 1)}
-            />
+              mode="outlined"
+              compact={true}
+              onPressIn={() => {
+                handlePressIn(index, -1);
+              }}
+              onPressOut={handlePressOut}
+            >
+              +
+            </Button>
           </View>
         ))}
         {/* <Button title="-" onPress={() => setValue(value - 1)} />

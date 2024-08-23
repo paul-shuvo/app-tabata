@@ -1,4 +1,36 @@
 import { create } from "zustand";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const defaultWorkout = {
+  preparation: 10,
+  set: 1,
+  cycle: 1,
+  cooldown: 120,
+  totalTime: 0,
+  labels: ["HIIT", "Full Body"],
+  workouts: [
+    {
+      title: "Squats",
+      duration: 20,
+      rest: 10,
+    },
+    {
+      title: "Push Ups",
+      duration: 20,
+      rest: 10,
+    },
+    {
+      title: "Bicycle Crunches",
+      duration: 20,
+      rest: 10,
+    },
+    {
+      title: "Jumping Jacks",
+      duration: 20,
+      rest: 10,
+    },
+  ],
+};
 
 const timerStore = create((set) => ({
   data: {

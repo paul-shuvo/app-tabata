@@ -21,7 +21,7 @@ const TimerElement = () => {
 
   useEffect(() => {
     setTotalTime(
-      data.preparation + (data.work + data.rest) * (data.set + data.cycle)
+      data.preparation + (data.work + data.rest) * data.set * data.cycle
     );
   }, [data.preparation, data.work, data.rest, data.set, data.cycle]);
 

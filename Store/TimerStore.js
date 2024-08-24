@@ -32,12 +32,15 @@ const defaultWorkout = {
   ],
 };
 
+// TODO Timer can't be more than 59'59"
+
 const timerStore = create((set) => ({
   data: {
     preparation: 0,
     work: 0,
     rest: 0,
     set: 1,
+    workouts: [{ "workout 1": 10 }],
     cycle: 1,
     totalTime: 0,
   },
@@ -63,7 +66,8 @@ const timerStore = create((set) => ({
         preparation: 0,
         work: 0,
         rest: 0,
-        set: 0,
+        set: 1,
+        workouts: [{ "workout 1": 10 }],
         cycle: 1,
         totalTime: 0,
       },

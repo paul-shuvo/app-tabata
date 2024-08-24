@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Button, Modal, TextInput, StyleSheet } from "react-native";
 import useTimerStore from "../Store/TimerStore";
+import ExerciseInfoComponent, { ExerciseInfo } from "./ExerciseInfoComponent";
+
+// TODO: Take the modal out of the TimerElement component and make it a separate component
 
 const TimerElement = () => {
   const {
@@ -27,10 +30,15 @@ const TimerElement = () => {
       .map((_, i) => `workout ${i + 1}`)
   );
   const [caloriesBurned, setCaloriesBurned] = useState(Array(set).fill(5));
-  console.log(caloriesBurned);
+  const [muscleGroup, setMuscleGroup] = useState(Array(set).fill("Legs"));
+  console.log(caloriesBurned, muscleGroup);
 
-  const zipArrays = (arr1, arr2) => {
-    return arr1.map((value, index) => [value, arr2[index]]);
+  const zipArrays = (...arrays) => {
+    if (arrays.length === 0) return [];
+    const minLength = Math.min(...arrays.map((arr) => arr.length));
+    return Array.from({ length: minLength }, (_, index) =>
+      arrays.map((arr) => arr[index])
+    );
   };
 
   const handleInputChange = (index, value) => {
@@ -43,6 +51,12 @@ const TimerElement = () => {
     newCaloriesBurned[index] = text;
     setCaloriesBurned(newCaloriesBurned);
   };
+  const handleMuscleGroupChange = (index, text) => {
+    const newMuscleGroup = [...muscleGroup];
+    newMuscleGroup[index] = text;
+    setMuscleGroup(newMuscleGroup);
+  };
+
   const timerElementTitles = ["Preparation", "Work", "Rest", "Set", "Cycle"];
 
   useEffect(() => {
@@ -112,9 +126,6 @@ const TimerElement = () => {
             />
           </View>
         ))}
-        {/* <Button title="-" onPress={() => setValue(value - 1)} />
-        <Text style={styles.counterText}>{value}</Text>
-        <Button title="+" onPress={() => setValue(value + 1)} /> */}
       </View>
       <Modal
         animationType="slide"
@@ -122,11 +133,11 @@ const TimerElement = () => {
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <View style={styles.modalView}>
+        {/* <View style={styles.modalView}>
           <Text style={styles.modalText}>Enter Values</Text>
-          {zipArrays(inputValues, caloriesBurned).map(
-            ([value, calories], index) => (
-              console.log(value, calories),
+          {zipArrays(inputValues, caloriesBurned, muscleGroup).map(
+            ([value, calories, muscleGroup], index) => (
+              console.log(value, calories, muscleGroup),
               (
                 <View
                   key={`view-${index}`} // Add a unique key for the View
@@ -148,12 +159,22 @@ const TimerElement = () => {
                     value={calories.toString()}
                     placeholder={"calories"}
                   />
+                  <TextInput
+                    key={`muscle-${index}`}
+                    style={styles.input}
+                    onChangeText={(text) =>
+                      handleMuscleGroupChange(index, text)
+                    }
+                    value={muscleGroup}
+                    placeholder={"muscle"}
+                  />
                 </View>
               )
             )
           )}
           <Button title="Close" onPress={() => setModalVisible(false)} />
-        </View>
+        </View> */}
+        <ExerciseInfoComponent setModalVisible={setModalVisible} />
       </Modal>
     </View>
   );
@@ -164,11 +185,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   modalView: {
-    margin: 20,
+    margin: 10,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
+    // alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
